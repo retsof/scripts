@@ -12,10 +12,17 @@ def main():
     mysql_exe = "/xampp/mysql/bin/mysql.exe"
     # Dirs
     backup_files_directory = "/users/Richard/Documents/Backup to Livedrive/Latest website backup"; 
+    backup_files_directory_alt = "/users/Richard/Latest website backup"; 
     temporary_extract_directory = backup_files_directory + "/restore_temp"
-    if(not os.path.isdir(backup_files_directory)):
-        raise ValueError("Not a readable dir: " + backup_files_directory)
 
+    # Check backup dir exists; if not try to use alternate
+    if(not os.path.isdir(backup_files_directory)):
+        if(os.path.isdir(backup_files_directory_alt)):
+            backup_files_directory = backup_files_directory_alt
+        else:
+            print("Not readable dir: " + backup_files_directory + " or alternative " + backup_files_directory_alt)
+            return
+    
     print("Refresh database ")
     
     # Get number of days ago. Default to 1 if empty
